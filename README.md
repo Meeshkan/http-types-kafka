@@ -5,15 +5,69 @@
 [![Downloads/week](https://img.shields.io/npm/dw/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
 [![License](https://img.shields.io/npm/l/http-types-kafka.svg)](https://github.com/Meeshkan/http-types-kafka/blob/master/package.json)
 
+Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to [Kafka](https://kafka.apache.org/) in Node.js, powered by [kafka.js](https://kafka.js.org/).
+
+## Producer example
+
+Create a `HttpTypesKafkaProducer` and connect to Kafka:
+
+```ts
+// Create a `KafkaConfig` instance (from kafka.js)
+const brokers = ["localhost:9092"];
+const kafkaConfig: KafkaConfig = {
+  clientId: "client-id",
+  brokers,
+};
+
+// Specify the topic
+const kafkaTopic = "my-recording-topic";
+
+// Create the producer
+const producer = HttpTypesKafkaProducer.create({ kafkaConfig, topic: kafkaTopic });
+
+// Connect to Kafka
+await producer.connect();
+```
+
+Send a single `HttpExchange` to Kafka:
+
+```ts
+const exchange: HttpExchange = ...;
+await producer.send(exchange);
+```
+
+Send multiple `HttpExchanges`:
+
+```ts
+const exchanges: HttpExchange[] = ...;
+await producer.sendMany(exchanges);
+```
+
+Send recordings from a JSON lines file, where every line is a JSON-encoded `HttpExchange`:
+
+```ts
+await producer.sendFromFile("recordings.jsonl");
+```
+
+Finally, disconnect:
+
+```ts
+await producer.disconnect();
+```
+
+## Table of contents
+
 <!-- toc -->
-* [http-types-kafka](#http-types-kafka)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [http-types-kafka](#http-types-kafka)
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g http-types-kafka
 $ ht-kafka COMMAND
@@ -25,13 +79,15 @@ USAGE
   $ ht-kafka COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
-* [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
+
+- [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
+- [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
 
 ## `ht-kafka help [COMMAND]`
 
@@ -65,4 +121,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/producer.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/producer.ts)_
+
 <!-- commandsstop -->
