@@ -1,5 +1,6 @@
 # http-types-kafka
 
+[![github](https://github.com/Meeshkan/http-types-kafka-node/workflows/Node.js%20CI/badge.svg)](https://github.com/Meeshkan/http-types-kafka-node/actions?query=workflow%3A%22Node.js+CI%22)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
 [![Downloads/week](https://img.shields.io/npm/dw/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
@@ -60,6 +61,7 @@ await producer.disconnect();
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @meeshkanml/http-types-kafka
 $ ht-kafka COMMAND
@@ -71,13 +73,15 @@ USAGE
   $ ht-kafka COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
-* [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
+
+- [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
+- [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
 
 ## `ht-kafka help [COMMAND]`
 
@@ -112,4 +116,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/producer.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/producer.ts)_
+
 <!-- commandsstop -->
