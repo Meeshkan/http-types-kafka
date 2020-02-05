@@ -4,7 +4,7 @@ import * as path from "path";
 import * as readline from "readline";
 import * as stream from "stream";
 import { HttpExchange, HttpExchangeReader } from "http-types";
-import { Message, Producer, RecordMetadata } from "kafkajs";
+import { KafkaConfig, ProducerConfig, Message, Producer, RecordMetadata, Kafka } from "kafkajs";
 
 const debugLog = debug("http-types-kafka:producer");
 
@@ -18,6 +18,24 @@ export class HttpTypesKafkaProducer {
   constructor({ producer, topic }: { producer: Producer; topic: string }) {
     this.topic = topic;
     this.producer = producer;
+  }
+
+  /**
+   * Create a new HttpTypesKafkaProducer
+   * @param opts KafkaConfig, ProducerConfig, and Kafka topic
+   */
+  public static create({
+    kafkaConfig,
+    producerConfig,
+    topic,
+  }: {
+    kafkaConfig: KafkaConfig;
+    producerConfig?: ProducerConfig;
+    topic: string;
+  }): HttpTypesKafkaProducer {
+    const kafka = new Kafka(kafkaConfig);
+    const producer = kafka.producer(producerConfig);
+    return new HttpTypesKafkaProducer({ producer, topic });
   }
 
   public connect(): Promise<void> {
@@ -41,6 +59,21 @@ export class HttpTypesKafkaProducer {
       throw Error(`File does not exist: ${resolvedPath}`);
     }
 
+    const transformToHttpExchange = new stream.Transform({
+      writableObjectMode: true,
+      readableObjectMode: true,
+
+      transform(chunk, _, callback): void {
+        try {
+          const exchange = HttpExchangeReader.fromJson(chunk);
+          callback(undefined, exchange);
+        } catch (err) {
+          debugLog("Transform stream caught an error", err);
+          callback(new Error(`Failed reading HTTP exchange from JSON: ${err.message}`));
+        }
+      },
+    });
+
     const fileReadStream = fs
       .createReadStream(resolvedPath, { encoding: "utf-8" })
       .on("end", function() {
@@ -48,44 +81,28 @@ export class HttpTypesKafkaProducer {
         // the first time 'data' event is received
         debugLog("All the data in the file has been read");
       })
-      .on("close", function(err) {
+      .on("close", () => {
         debugLog("Read stream has been destroyed and file has been closed");
+      })
+      .on("error", err => {
+        debugLog("Error reading file stream");
+        transformToHttpExchange.emit("error", err);
       });
 
     const readlinesStream = readline.createInterface({
       input: fileReadStream,
     });
 
-    const transform = new stream.Transform({
-      writableObjectMode: true,
-      readableObjectMode: true,
-
-      transform(chunk, _, callback): void {
-        // debugLog(`Received chunk: ${chunk}`);
-        try {
-          const exchange = HttpExchangeReader.fromJson(chunk);
-          callback(undefined, exchange);
-        } catch (err) {
-          callback(err);
-        }
-      },
-    });
-
     readlinesStream.on("line", line => {
-      transform.write(line);
+      transformToHttpExchange.write(line);
     });
 
     readlinesStream.on("close", () => {
       debugLog("Lines stream exhausted");
-      transform.end();
+      transformToHttpExchange.end();
     });
 
-    readlinesStream.on("error", e => {
-      debugLog("Error reading lines");
-      transform.emit("error", e);
-    });
-
-    await this.sendFromStream(transform);
+    await this.sendFromStream(transformToHttpExchange);
   }
 
   /**

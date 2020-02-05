@@ -2,6 +2,8 @@ import { Command, flags } from "@oclif/command";
 import { HttpTypesKafkaProducer } from "../producer";
 import { Kafka } from "kafkajs";
 
+const CLIENT_ID = "http-types-producer";
+
 export default class Producer extends Command {
   static description = "describe the command here";
 
@@ -24,17 +26,24 @@ export default class Producer extends Command {
 
     this.log(`Producing from file ${file}`);
 
-    const kafka = new Kafka({
-      clientId: "my-app",
+    const kafkaConfig = {
+      clientId: CLIENT_ID,
       brokers,
-    });
+    };
 
-    const kafkaProducer = kafka.producer();
+    const producer = HttpTypesKafkaProducer.create({ kafkaConfig, topic });
 
-    const producer = new HttpTypesKafkaProducer({ producer: kafkaProducer, topic });
     await producer.connect();
+    this.log("Kafka producer connected");
 
-    await producer.sendFromFile(file);
-    await producer.disconnect();
+    try {
+      await producer.sendFromFile(file);
+      this.log("Successfully consumed file.");
+    } catch (err) {
+      this.log("Producer failed", err);
+    } finally {
+      await producer.disconnect();
+      this.log("Kafka producer disconnected");
+    }
   }
 }
