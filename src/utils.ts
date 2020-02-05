@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 import { HttpExchangeReader, HttpExchange } from "http-types";
 
 export const readExchanges = (jsonlFilename: string): HttpExchange[] => {

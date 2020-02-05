@@ -1,4 +1,6 @@
 import { Command, flags } from "@oclif/command";
+import { HttpTypesKafkaProducer } from "../producer";
+import { Kafka } from "kafkajs";
 
 export default class Producer extends Command {
   static description = "describe the command here";
@@ -6,20 +8,33 @@ export default class Producer extends Command {
   static flags = {
     help: flags.help({ char: "h" }),
     // flag with a value (-n, --name=VALUE)
-    name: flags.string({ char: "n", description: "name to print" }),
-    // flag with no value (-f, --force)
-    force: flags.boolean({ char: "f" }),
+    file: flags.string({ description: "Path to JSONL file", required: true }),
+    topic: flags.string({ description: "Kafka topic", required: true }),
+    brokers: flags.string({ char: "b", description: "Kafka brokers, comma-separated", default: "localhost:9092" }),
   };
 
   static args = [{ name: "file" }];
 
   async run(): Promise<void> {
-    const { args, flags } = this.parse(Producer);
+    const { flags } = this.parse(Producer);
 
-    const name = flags.name || "world";
-    this.log(`hello ${name} from /Users/kimmo/git/meeshkan/http-types-kafka/src/commands/producer.ts`);
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`);
-    }
+    const file = flags.file;
+    const topic = flags.topic;
+    const brokers = flags.brokers.split(",");
+
+    this.log(`Producing from file ${file}`);
+
+    const kafka = new Kafka({
+      clientId: "my-app",
+      brokers,
+    });
+
+    const kafkaProducer = kafka.producer();
+
+    const producer = new HttpTypesKafkaProducer({ producer: kafkaProducer, topic });
+    await producer.connect();
+
+    await producer.sendFromFile(file);
+    await producer.disconnect();
   }
 }
