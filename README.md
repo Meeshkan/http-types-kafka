@@ -55,14 +55,9 @@ Finally, disconnect:
 await producer.disconnect();
 ```
 
+# Command-line interface
+
 ## Table of contents
-
-<!-- toc -->
-
-- [http-types-kafka](#http-types-kafka)
-- [Usage](#usage)
-- [Commands](#commands)
-  <!-- tocstop -->
 
 # Usage
 
