@@ -77,8 +77,6 @@ export class HttpTypesKafkaProducer {
     const fileReadStream = fs
       .createReadStream(resolvedPath, { encoding: "utf-8" })
       .on("end", function() {
-        // This may not been called since we are destroying the stream
-        // the first time 'data' event is received
         debugLog("All the data in the file has been read");
       })
       .on("close", () => {

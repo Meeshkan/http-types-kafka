@@ -1,6 +1,6 @@
 import { Command, flags } from "@oclif/command";
 import { HttpTypesKafkaProducer } from "../producer";
-import { Kafka } from "kafkajs";
+import { KafkaConfig } from "kafkajs";
 
 const CLIENT_ID = "http-types-producer";
 
@@ -26,7 +26,7 @@ export default class Producer extends Command {
 
     this.log(`Producing from file ${file}`);
 
-    const kafkaConfig = {
+    const kafkaConfig: KafkaConfig = {
       clientId: CLIENT_ID,
       brokers,
     };
