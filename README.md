@@ -1,7 +1,4 @@
-http-types-kafka
-================
-
-
+# http-types-kafka
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
@@ -9,10 +6,13 @@ http-types-kafka
 [![License](https://img.shields.io/npm/l/http-types-kafka.svg)](https://github.com/Meeshkan/http-types-kafka/blob/master/package.json)
 
 <!-- toc -->
+* [http-types-kafka](#http-types-kafka)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
 ```sh-session
 $ npm install -g http-types-kafka
@@ -26,30 +26,12 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`ht-kafka hello [FILE]`](#ht-kafka-hello-file)
 * [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
-
-## `ht-kafka hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ ht-kafka hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ ht-kafka hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/hello.ts)_
+* [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
 
 ## `ht-kafka help [COMMAND]`
 
@@ -67,4 +49,20 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
+
+## `ht-kafka producer [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ ht-kafka producer [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/producer.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/producer.ts)_
 <!-- commandsstop -->
