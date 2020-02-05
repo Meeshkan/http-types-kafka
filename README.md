@@ -57,32 +57,27 @@ await producer.disconnect();
 
 # Command-line interface
 
-## Table of contents
-
 # Usage
 
 <!-- usage -->
-
 ```sh-session
-$ npm install -g http-types-kafka
+$ npm install -g @meeshkanml/http-types-kafka
 $ ht-kafka COMMAND
 running command...
 $ ht-kafka (-v|--version|version)
-http-types-kafka/0.0.0 darwin-x64 node-v10.16.0
+@meeshkanml/http-types-kafka/0.0.0 darwin-x64 node-v10.16.0
 $ ht-kafka --help [COMMAND]
 USAGE
   $ ht-kafka COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
-- [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
+* [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
+* [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
 
 ## `ht-kafka help [COMMAND]`
 
@@ -110,11 +105,11 @@ USAGE
   $ ht-kafka producer [FILE]
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -b, --brokers=brokers  [default: localhost:9092] Kafka brokers, comma-separated
+  -h, --help             show CLI help
+  --file=file            (required) Path to JSONL file
+  --topic=topic          (required) Kafka topic
 ```
 
 _See code: [src/commands/producer.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/producer.ts)_
-
 <!-- commandsstop -->
