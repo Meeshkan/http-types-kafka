@@ -8,13 +8,15 @@
 
 Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to [Kafka](https://kafka.apache.org/) in Node.js, powered by [kafka.js](https://kafka.js.org/).
 
-## Producer example
+## Quick start
 
 First create the topic you're writing to:
 
 ```bash
 $ kafka-topics.sh --bootstrap-server localhost:9092 --topic express_recordings --create --partitions 3 --replication-factor 1
 ```
+
+Note that you may need to change script name depending on how you installed Kafka.
 
 Create a `HttpTypesKafkaProducer` and connect to Kafka:
 
@@ -68,65 +70,21 @@ Delete the topic if you're done:
 $ kafka-topics.sh --bootstrap-server localhost:9092 --topic express_recordings --delete
 ```
 
-# Command-line interface
+## Command-line interface
 
-# Usage
+See available commands:
 
-<!-- usage -->
-
-```sh-session
-$ npm install -g @meeshkanml/http-types-kafka
-$ ht-kafka COMMAND
-running command...
-$ ht-kafka (-v|--version|version)
-@meeshkanml/http-types-kafka/0.0.0 darwin-x64 node-v10.16.0
-$ ht-kafka --help [COMMAND]
-USAGE
-  $ ht-kafka COMMAND
-...
+```bash
+$ http-types-kafka
 ```
 
-<!-- usagestop -->
+### Producer
 
-# Commands
+First create the destination topic in Kafka. 
 
-<!-- commands -->
+To send recordings from `recordings.jsonl` to Kafka, run:
 
-- [`ht-kafka help [COMMAND]`](#ht-kafka-help-command)
-- [`ht-kafka producer [FILE]`](#ht-kafka-producer-file)
-
-## `ht-kafka help [COMMAND]`
-
-display help for ht-kafka
-
-```
-USAGE
-  $ ht-kafka help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
+```bash
+$ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.3/src/commands/help.ts)_
-
-## `ht-kafka producer [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ ht-kafka producer [FILE]
-
-OPTIONS
-  -b, --brokers=brokers  [default: localhost:9092] Kafka brokers, comma-separated
-  -h, --help             show CLI help
-  --file=file            (required) Path to JSONL file
-  --topic=topic          (required) Kafka topic
-```
-
-_See code: [src/commands/producer.ts](https://github.com/Meeshkan/http-types-kafka/blob/v0.0.0/src/commands/producer.ts)_
-
-<!-- commandsstop -->

@@ -48,7 +48,7 @@
   "main": "lib/index.js",
   "oclif": {
     "commands": "./lib/commands",
-    "bin": "ht-kafka",
+    "bin": "http-types-kafka",
     "plugins": [
       "@oclif/plugin-help"
     ]
