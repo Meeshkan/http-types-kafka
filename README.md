@@ -10,6 +10,12 @@ Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to 
 
 ## Producer example
 
+First create the topic you're writing to:
+
+```bash
+$ kafka-topics.sh --bootstrap-server localhost:9092 --topic express_recordings --create --partitions 3 --replication-factor 1
+```
+
 Create a `HttpTypesKafkaProducer` and connect to Kafka:
 
 ```ts
@@ -21,7 +27,7 @@ const kafkaConfig: KafkaConfig = {
 };
 
 // Specify the topic
-const kafkaTopic = "my-recording-topic";
+const kafkaTopic = "express_recordings";
 
 // Create the producer
 const producer = HttpTypesKafkaProducer.create({ kafkaConfig, topic: kafkaTopic });
@@ -54,6 +60,12 @@ Finally, disconnect:
 
 ```ts
 await producer.disconnect();
+```
+
+Delete the topic if you're done:
+
+```bash
+$ kafka-topics.sh --bootstrap-server localhost:9092 --topic express_recordings --delete
 ```
 
 # Command-line interface

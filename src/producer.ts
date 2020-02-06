@@ -116,10 +116,12 @@ export class HttpTypesKafkaProducer {
   }
 
   private static toMessage(exchange: HttpExchange): Message {
-    return {
+    const message = {
       key: exchange.request.host,
       value: JSON.stringify(exchange),
     };
+    debugLog(`Created message: ${JSON.stringify(message)}`);
+    return message;
   }
 
   public async sendMany(exchanges: HttpExchange[]): Promise<RecordMetadata[]> {
@@ -131,6 +133,7 @@ export class HttpTypesKafkaProducer {
   }
 
   public async send(exchange: HttpExchange): Promise<RecordMetadata[]> {
+    debugLog("Sending message to ");
     return this.sendMany([exchange]);
   }
 }

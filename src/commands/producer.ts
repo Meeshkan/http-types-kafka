@@ -11,7 +11,7 @@ export default class Producer extends Command {
     help: flags.help({ char: "h" }),
     // flag with a value (-n, --name=VALUE)
     file: flags.string({ description: "Path to JSONL file", required: true }),
-    topic: flags.string({ description: "Kafka topic", required: true }),
+    topic: flags.string({ char: "t", description: "Kafka topic", required: true }),
     brokers: flags.string({ char: "b", description: "Kafka brokers, comma-separated", default: "localhost:9092" }),
   };
 
