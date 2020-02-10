@@ -124,6 +124,14 @@ $ npm publish --access public --dry-run
 
 Remove `--dry-run` once you're sure you want to publish.
 
+Push `git` tags:
+
+```bash
+$ TAG=v`cat package.json | grep version | awk 'BEGIN { FS = "\"" } { print $4 }'`
+$ git tag -a $TAG -m $TAG
+$ git push origin $TAG
+```
+
 ### Working with local Kafka
 
 First start `kafka` and `zookeeper`:
