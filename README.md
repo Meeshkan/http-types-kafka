@@ -88,7 +88,25 @@ To send recordings from `recordings.jsonl` to Kafka, run:
 $ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 ```
 
-## Running tests
+## Development
+
+### Starting Kafka
+
+#### Quick start
+
+Launch containers and create the test topic:
+
+```bash
+./docker-start.sh
+```
+
+Teardown containers:
+
+```bash
+./docker-stop.sh
+```
+
+#### Long version
 
 First start `kafka`:
 
@@ -97,26 +115,40 @@ First start `kafka`:
 docker-compose up
 ```
 
-Create a topic:
+Create a topic called `http_types_kafka_test`:
 
 ```bash
-kafka-topics.sh --bootstrap-server localhost:9092 --topic test_topic --create --partitions 3 --replication-factor 1
+docker exec kafka1 kafka-topics --bootstrap-server kafka1:9092 --topic http_types_kafka_test --create --partitions 3 --replication-factor 1
 ```
 
-Create from the `kafka1` container:
+Check the topic exists:
 
 ```bash
-docker exec kafka1 kafka-topics --bootstrap-server kafka1:9092 --topic test_topic_1 --create --partitions 3 --replication-factor 1
+docker exec kafka1 kafka-topics --bootstrap-server localhost:9092 --list
 ```
 
-Check the topic exists with `kafkacat`:
+Describe the topic:
+
+```bash
+docker exec kafka1 kafka-topics --bootstrap-server localhost:9092 --describe --topic http_types_kafka_test
+```
+
+#### Using [kafkacat](https://github.com/edenhill/kafkacat)
+
+List topics:
 
 ```bash
 kafkacat -b localhost:9092 -L
 ```
 
-Push data to topic `test_topic`:
+Push data to topic from file with `snappy` compression:
 
 ```bash
-tail -f tests/resources/recordings.jsonl | kafkacat -b localhost:9092 -t test_topic -z snappy
+tail -f tests/resources/recordings.jsonl | kafkacat -b localhost:9092 -t http_types_kafka_test -z snappy
+```
+
+Consume messages from topic to console:
+
+```bash
+kafkacat -b localhost:9092 -t http_types_kafka_test -C
 ```
