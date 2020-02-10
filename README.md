@@ -80,7 +80,7 @@ $ http-types-kafka
 
 ### Producer
 
-First create the destination topic in Kafka. 
+First create the destination topic in Kafka.
 
 To send recordings from `recordings.jsonl` to Kafka, run:
 
@@ -88,3 +88,14 @@ To send recordings from `recordings.jsonl` to Kafka, run:
 $ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 ```
 
+## Running tests
+
+First start `kafka`:
+
+```bash
+# Host IP needed for Kafka networking
+export HOST_IP=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
+
+# Start `docker-compose.yml` with `HOST_IP`
+docker-compose up
+```
