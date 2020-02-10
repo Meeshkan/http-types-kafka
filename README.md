@@ -33,7 +33,7 @@ Note that you may need to change script name depending on how you installed Kafk
 Create a `HttpTypesKafkaProducer` and connect to Kafka:
 
 ```ts
-import { KafkaConfig, ProducerConfig } from "kafkajs";
+import { CompressionTypes, KafkaConfig, ProducerConfig } from "kafkajs";
 import { HttpTypesKafkaProducer } from "http-types-kafka";
 
 // Create a `KafkaConfig` instance (from kafka.js)
@@ -49,7 +49,12 @@ const producerConfig: ProducerConfig = { idempotent: false };
 const kafkaTopic = "express_recordings";
 
 // Create the producer
-const producer = HttpTypesKafkaProducer.create({ kafkaConfig, producerConfig, topic: kafkaTopic });
+const producer = HttpTypesKafkaProducer.create({
+  compressionType: CompressionTypes.GZIP,
+  kafkaConfig,
+  producerConfig,
+  topic: kafkaTopic,
+});
 
 // Connect to Kafka
 await producer.connect();

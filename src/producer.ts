@@ -4,7 +4,7 @@ import * as path from "path";
 import * as readline from "readline";
 import * as stream from "stream";
 import { HttpExchange, HttpExchangeReader } from "http-types";
-import { KafkaConfig, ProducerConfig, Message, Producer, RecordMetadata, Kafka } from "kafkajs";
+import { KafkaConfig, ProducerConfig, Message, Producer, RecordMetadata, Kafka, CompressionTypes } from "kafkajs";
 
 const debugLog = debug("http-types-kafka:producer");
 
@@ -12,12 +12,20 @@ const resolveFile = (filepath: string): string => {
   return path.resolve(filepath);
 };
 
+export interface HttpTypesKafkaProducerConfig {
+  compressionType?: CompressionTypes;
+  producer: Producer;
+  topic: string;
+}
+
 export class HttpTypesKafkaProducer {
   private readonly topic: string;
   private readonly producer: Producer;
-  constructor({ producer, topic }: { producer: Producer; topic: string }) {
+  private readonly compressionType: CompressionTypes;
+  constructor({ compressionType = CompressionTypes.GZIP, producer, topic }: HttpTypesKafkaProducerConfig) {
     this.topic = topic;
     this.producer = producer;
+    this.compressionType = compressionType;
   }
 
   /**
@@ -28,14 +36,16 @@ export class HttpTypesKafkaProducer {
     kafkaConfig,
     producerConfig,
     topic,
+    compressionType,
   }: {
     kafkaConfig: KafkaConfig;
     producerConfig?: ProducerConfig;
     topic: string;
+    compressionType?: CompressionTypes;
   }): HttpTypesKafkaProducer {
     const kafka = new Kafka(kafkaConfig);
     const producer = kafka.producer(producerConfig);
-    return new HttpTypesKafkaProducer({ producer, topic });
+    return new HttpTypesKafkaProducer({ compressionType, producer, topic });
   }
 
   public connect(): Promise<void> {
@@ -128,6 +138,7 @@ export class HttpTypesKafkaProducer {
     debugLog(`Sending ${exchanges.length} messages`);
     return this.producer.send({
       topic: this.topic,
+      compression: this.compressionType,
       messages: exchanges.map(exchange => HttpTypesKafkaProducer.toMessage(exchange)),
     });
   }
