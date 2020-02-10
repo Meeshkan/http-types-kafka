@@ -80,7 +80,7 @@ $ http-types-kafka
 
 ### Producer
 
-First create the destination topic in Kafka. 
+First create the destination topic in Kafka.
 
 To send recordings from `recordings.jsonl` to Kafka, run:
 
@@ -88,3 +88,65 @@ To send recordings from `recordings.jsonl` to Kafka, run:
 $ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 ```
 
+## Development
+
+Install dependencies:
+
+```bash
+$ yarn
+```
+
+Run tests:
+
+```bash
+$ ./docker-start.sh  # Start Kafka and zookeeper
+$ yarn test
+$ ./docker-stop.sh  # Once you're done
+```
+
+### Working with local Kafka
+
+First start `kafka` and `zookeeper`:
+
+```bash
+# See `docker-compose.yml`
+docker-compose up
+```
+
+Create a topic called `http_types_kafka_test`:
+
+```bash
+docker exec kafka1 kafka-topics --bootstrap-server kafka1:9092 --topic http_types_kafka_test --create --partitions 3 --replication-factor 1
+```
+
+Check the topic exists:
+
+```bash
+docker exec kafka1 kafka-topics --bootstrap-server localhost:9092 --list
+```
+
+Describe the topic:
+
+```bash
+docker exec kafka1 kafka-topics --bootstrap-server localhost:9092 --describe --topic http_types_kafka_test
+```
+
+#### Using [kafkacat](https://github.com/edenhill/kafkacat)
+
+List topics:
+
+```bash
+kafkacat -b localhost:9092 -L
+```
+
+Push data to topic from file with `snappy` compression:
+
+```bash
+tail -f tests/resources/recordings.jsonl | kafkacat -b localhost:9092 -t http_types_kafka_test -z snappy
+```
+
+Consume messages from topic to console:
+
+```bash
+kafkacat -b localhost:9092 -t http_types_kafka_test -C
+```

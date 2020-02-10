@@ -18,6 +18,7 @@
   "devDependencies": {
     "@oclif/dev-cli": "^1",
     "@types/debug": "^4.1.5",
+    "@types/jest": "^25.1.2",
     "@types/node": "^10",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/parser": "^2.19.0",
@@ -27,7 +28,9 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "globby": "^10",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
     "ts-node": "^8",
     "typescript": "^3.3"
   },
@@ -57,8 +60,12 @@
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "format:check": "prettier --check src/**/*",
+    "format:lint": "prettier --check src/**/*",
+    "lint:check": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts",
     "compile": "tsc",
-    "test": "echo NO TESTS",
+    "test": "jest",
     "version": "oclif-dev readme && git add README.md"
   },
   "types": "lib/index.d.ts"

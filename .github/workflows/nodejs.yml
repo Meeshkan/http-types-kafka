@@ -16,8 +16,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Start containers
+        run: docker-compose up -d
+      - name: Wait for containers
+        run: sleep 10
+      - name: Create the test topic
+        run: docker exec kafka1 kafka-topics --bootstrap-server kafka1:9092 --topic http_types_kafka_test --create --partitions 3 --replication-factor 1
       - run: yarn
       - run: yarn compile
       - run: yarn test
         env:
           CI: true
+      - name: Stop containers
+        run: docker-compose down
