@@ -103,6 +103,12 @@ Create a topic:
 kafka-topics.sh --bootstrap-server localhost:9092 --topic test_topic --create --partitions 3 --replication-factor 1
 ```
 
+Create from the `kafka1` container:
+
+```bash
+docker exec kafka1 kafka-topics --bootstrap-server kafka1:9092 --topic test_topic_1 --create --partitions 3 --replication-factor 1
+```
+
 Check the topic exists with `kafkacat`:
 
 ```bash
