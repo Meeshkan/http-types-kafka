@@ -59,14 +59,13 @@
   "repository": "Meeshkan/http-types-kafka",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest",
     "format:check": "prettier --check src/**/*",
     "format:lint": "prettier --check src/**/*",
     "lint:check": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix src/**/*.ts",
     "compile": "tsc",
-    "test": "jest",
-    "version": "oclif-dev readme && git add README.md"
+    "test": "jest"
   },
   "types": "lib/index.d.ts"
 }
