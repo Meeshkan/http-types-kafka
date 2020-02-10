@@ -90,25 +90,23 @@ $ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 
 ## Development
 
-### Starting Kafka
-
-#### Quick start
-
-Launch containers and create the test topic:
+Install dependencies:
 
 ```bash
-./docker-start.sh
+$ yarn
 ```
 
-Teardown containers:
+Run tests:
 
 ```bash
-./docker-stop.sh
+$ ./docker-start.sh  # Start Kafka and zookeeper
+$ yarn test
+$ ./docker-stop.sh  # Once you're done
 ```
 
-#### Long version
+### Working with local Kafka
 
-First start `kafka`:
+First start `kafka` and `zookeeper`:
 
 ```bash
 # See `docker-compose.yml`
