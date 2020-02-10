@@ -5,6 +5,7 @@
   "bin": {
     "ht-kafka": "./bin/run"
   },
+  "description": "Kafka producer for recording HTTP traffic",
   "bugs": "https://github.com/Meeshkan/http-types-kafka/issues",
   "dependencies": {
     "@oclif/command": "^1",
