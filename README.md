@@ -8,6 +8,8 @@
 
 Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to [Kafka](https://kafka.apache.org/) in Node.js, powered by [kafka.js](https://kafka.js.org/).
 
+The library is a wrapper around [kafkajs](https://kafka.js.org/) so it must be installed as peer dependency.
+
 ## Installation
 
 [kafkajs](https://www.npmjs.com/package/kafkajs) must be installed as peer dependency.
@@ -31,6 +33,9 @@ Note that you may need to change script name depending on how you installed Kafk
 Create a `HttpTypesKafkaProducer` and connect to Kafka:
 
 ```ts
+import { KafkaConfig, ProducerConfig } from "kafkajs";
+import { HttpTypesKafkaProducer } from "http-types-kafka";
+
 // Create a `KafkaConfig` instance (from kafka.js)
 const brokers = ["localhost:9092"];
 const kafkaConfig: KafkaConfig = {
@@ -38,11 +43,13 @@ const kafkaConfig: KafkaConfig = {
   brokers,
 };
 
+const producerConfig: ProducerConfig = { idempotent: false };
+
 // Specify the topic
 const kafkaTopic = "express_recordings";
 
 // Create the producer
-const producer = HttpTypesKafkaProducer.create({ kafkaConfig, topic: kafkaTopic });
+const producer = HttpTypesKafkaProducer.create({ kafkaConfig, producerConfig, topic: kafkaTopic });
 
 // Connect to Kafka
 await producer.connect();
@@ -129,16 +136,15 @@ $ npm pack
 Publish to `npm`:
 
 ```bash
-$ npm publish --access public --dry-run
+$ yarn publish --access public
 ```
-
-Remove `--dry-run` once you're sure you want to publish.
 
 Push `git` tags:
 
 ```bash
 $ TAG=v`cat package.json | grep version | awk 'BEGIN { FS = "\"" } { print $4 }'`
-$ git tag -a $TAG -m $TAG
+# Tagging done by `yarn publish`
+# git tag -a $TAG -m $TAG
 $ git push origin $TAG
 ```
 

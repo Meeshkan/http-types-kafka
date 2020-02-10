@@ -1,10 +1,12 @@
-import { HttpTypesKafkaProducer, KafkaConfig } from "../src";
+import { KafkaConfig, ProducerConfig } from "kafkajs";
+import { HttpTypesKafkaProducer } from "../src";
 import { HttpExchange, HttpRequestBuilder, HttpResponse, HttpHeaders, HttpProtocol, HttpMethod } from "http-types";
 
 const TEST_TOPIC = "http_types_kafka_test";
 
 describe("HttpTypesKafkaProducer", () => {
   const kafkaConfig: KafkaConfig = { brokers: ["localhost:9092"] };
+  const producerConfig: ProducerConfig = { idempotent: false };
   let producer: HttpTypesKafkaProducer;
   const request = HttpRequestBuilder.fromPath({
     method: HttpMethod.GET,
@@ -23,7 +25,7 @@ describe("HttpTypesKafkaProducer", () => {
     response,
   };
   beforeAll(async () => {
-    producer = HttpTypesKafkaProducer.create({ kafkaConfig, topic: TEST_TOPIC });
+    producer = HttpTypesKafkaProducer.create({ kafkaConfig, producerConfig, topic: TEST_TOPIC });
     await producer.connect();
   });
 
