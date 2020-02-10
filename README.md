@@ -8,6 +8,16 @@
 
 Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to [Kafka](https://kafka.apache.org/) in Node.js, powered by [kafka.js](https://kafka.js.org/).
 
+## Installation
+
+[kafkajs](https://www.npmjs.com/package/kafkajs) must be installed as peer dependency.
+
+```bash
+$ yarn add kafkajs http-types-kafka
+# or
+$ npm i kafkajs http-types-kafa
+```
+
 ## Quick start
 
 First create the topic you're writing to:
