@@ -96,6 +96,12 @@ Install dependencies:
 $ yarn
 ```
 
+Build a package in `lib`:
+
+```bash
+$ yarn compile
+```
+
 Run tests:
 
 ```bash
