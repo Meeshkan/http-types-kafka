@@ -7,6 +7,7 @@
   },
   "description": "Kafka producer for recording HTTP traffic",
   "bugs": "https://github.com/Meeshkan/http-types-kafka/issues",
+  "private": false,
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",

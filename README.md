@@ -2,9 +2,9 @@
 
 [![github](https://github.com/Meeshkan/http-types-kafka-node/workflows/Node.js%20CI/badge.svg)](https://github.com/Meeshkan/http-types-kafka-node/actions?query=workflow%3A%22Node.js+CI%22)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
-[![Downloads/week](https://img.shields.io/npm/dw/http-types-kafka.svg)](https://npmjs.org/package/http-types-kafka)
-[![License](https://img.shields.io/npm/l/http-types-kafka.svg)](https://github.com/Meeshkan/http-types-kafka/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@meeshkanml/http-types-kafka.svg)](https://npmjs.org/package/@meeshkanml/http-types-kafka)
+[![Downloads/week](https://img.shields.io/npm/dw/@meeshkanml/http-types-kafka.svg)](https://npmjs.org/package/@meeshkanml/http-types-kafka)
+[![License](https://img.shields.io/npm/l/@meeshkanml/http-types-kafka.svg)](https://github.com/Meeshkan/http-types-kafka/blob/master/package.json)
 
 Tools for writing [ts-http-types](https://github.com/Meeshkan/ts-http-types) to [Kafka](https://kafka.apache.org/) in Node.js, powered by [kafka.js](https://kafka.js.org/).
 
