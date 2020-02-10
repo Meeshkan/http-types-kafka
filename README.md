@@ -110,6 +110,20 @@ $ yarn test
 $ ./docker-stop.sh  # Once you're done
 ```
 
+Package for `npm`:
+
+```bash
+$ npm pack
+```
+
+Publish to `npm`:
+
+```bash
+$ npm publish --access public --dry-run
+```
+
+Remove `--dry-run` once you're sure you want to publish.
+
 ### Working with local Kafka
 
 First start `kafka` and `zookeeper`:
