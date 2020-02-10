@@ -93,9 +93,24 @@ $ http-types-kafka producer --file=recordings.jsonl --topic=my_recordings
 First start `kafka`:
 
 ```bash
-# Host IP needed for Kafka networking
-export HOST_IP=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
-
-# Start `docker-compose.yml` with `HOST_IP`
+# See `docker-compose.yml`
 docker-compose up
+```
+
+Create a topic:
+
+```bash
+kafka-topics.sh --bootstrap-server localhost:9092 --topic test_topic --create --partitions 3 --replication-factor 1
+```
+
+Check the topic exists with `kafkacat`:
+
+```bash
+kafkacat -b localhost:9092 -L
+```
+
+Push data to topic `test_topic`:
+
+```bash
+tail -f tests/resources/recordings.jsonl | kafkacat -b localhost:9092 -t test_topic -z snappy
 ```
