@@ -30,7 +30,7 @@ describe("HttpTypesKafkaProducer", () => {
   });
 
   it("should put messages to the given topic", async () => {
-    await producer.send(exchange);
+    return producer.send(exchange);
   });
 
   afterAll(async () => {
