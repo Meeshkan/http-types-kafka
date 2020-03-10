@@ -144,12 +144,11 @@ Publish to `npm`:
 $ yarn publish --access public
 ```
 
-Push `git` tags:
+`yarn publish` will create a commit to bump the version and also creates a tag for the new version. Push both:
 
 ```bash
+$ git push
 $ TAG=v`cat package.json | grep version | awk 'BEGIN { FS = "\"" } { print $4 }'`
-# Tagging done by `yarn publish`
-# git tag -a $TAG -m $TAG
 $ git push origin $TAG
 ```
 
